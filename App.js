@@ -1,114 +1,13 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
-import { FloatingAction } from "react-native-floating-action";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import PasswordRecordFactory from "./model/PasswordRecord.js";
-import FloatingActionButtonsActions from "./model/FloatingActionButtons.js";
-
-const DATA = [
-  PasswordRecordFactory("First Password", "First Item"),
-  PasswordRecordFactory("Second Password", "Second Item"),
-];
-
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.name}</Text>
-  </TouchableOpacity>
-);
-
-function HomeScreen({ navigation, route }) {
-  return (
-    <View style={styles.container}>
-      <Image source={require("./assets/vault.png")} />
-      <Text>Storage for your passwords</Text>
-      <Button
-        title="Let's get started"
-        onPress={() => navigation.navigate("PasswordListScreen")}
-      />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-function PasswordRecordDetailsScreen({ navigation, route }) {
-  return (
-    <View style={styles.container}>
-      <Text>Your password details are the following:</Text>
-    </View>
-  );
-}
-
-function AddNewPasswordScreen({ navigation, route }) {
-  return (
-    <View style={styles.container}>
-      <Text>Add new password</Text>
-    </View>
-  );
-}
-
-function AddNewPasswordScreenFromPicture({ navigation, route }) {
-  return (
-    <View style={styles.container}>
-      <Text>Add new password from Picture</Text>
-    </View>
-  );
-}
-
-function PasswordListScreen({ route, navigation }) {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    const color = item.id === selectedId ? "white" : "black";
-
-    return (
-      <Item
-        item={item}
-        onPress={() => {
-          setSelectedId(item.id);
-          navigation.navigate("PasswordRecordDetailsScreen");
-        }}
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
-      />
-    );
-  };
-
-  return (
-    <View style={styles.containerForDetails}>
-      <View style={styles.passwordRecordWrapper}>
-        <Text style={styles.sectionTitle}>Saved Passwords</Text>
-      </View>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
-      <FloatingAction
-        actions={FloatingActionButtonsActions}
-        onPressItem={(name) => {
-          console.log(`selected button: ${name}`);
-          if (name == "add_new_password") {
-            navigation.navigate("AddNewPasswordScreen");
-          } else if (name == "add_new_password_from_picture") {
-            navigation.navigate("AddNewPasswordScreenFromPicture");
-          }
-        }}
-      />
-    </View>
-  );
-}
+import HomeScreen from "./screens/HomeScreen.js";
+import PasswordListScreen from "./screens/PasswordListScreen.js";
+import PasswordRecordDetailsScreen from "./screens/PasswordRecordDetailsScreen.js";
+import AddNewPasswordScreen from "./screens/AddNewPasswordScreen.js";
+import AddNewPasswordScreenFromPicture from "./screens/AddNewPasswordScreenFromPicture.js";
 
 const Stack = createStackNavigator();
 
