@@ -57,6 +57,14 @@ function AddNewPasswordScreen({ navigation, route }) {
   );
 }
 
+function AddNewPasswordScreenFromPicture({ navigation, route }) {
+  return (
+    <View style={styles.container}>
+      <Text>Add new password from Picture</Text>
+    </View>
+  );
+}
+
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
 
@@ -91,7 +99,11 @@ function PasswordListScreen({ route, navigation }) {
         actions={FloatingActionButtonsActions}
         onPressItem={(name) => {
           console.log(`selected button: ${name}`);
-          navigation.navigate("AddNewPasswordScreen");
+          if (name == "add_new_password") {
+            navigation.navigate("AddNewPasswordScreen");
+          } else if (name == "add_new_password_from_picture") {
+            navigation.navigate("AddNewPasswordScreenFromPicture");
+          }
         }}
       />
     </View>
@@ -135,6 +147,11 @@ export default function App() {
           name="AddNewPasswordScreen"
           component={AddNewPasswordScreen}
           options={{ title: "New Password" }}
+        />
+        <Stack.Screen
+          name="AddNewPasswordScreenFromPicture"
+          component={AddNewPasswordScreenFromPicture}
+          options={{ title: "New Password From Picture" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
