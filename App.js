@@ -10,9 +10,11 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import { FloatingAction } from "react-native-floating-action";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PasswordRecordFactory from "./model/PasswordRecord.js";
+import FloatingActionButtonsActions from "./model/FloatingActionButtons.js";
 
 const DATA = [
   PasswordRecordFactory("First Password", "First Item"),
@@ -32,14 +34,14 @@ function HomeScreen({ navigation, route }) {
       <Text>Storage for your passwords</Text>
       <Button
         title="Let's get started"
-        onPress={() => navigation.navigate("Details")}
+        onPress={() => navigation.navigate("PasswordListScreen")}
       />
       <StatusBar style="auto" />
     </View>
   );
 }
 
-function DetailsScreen({ route, navigation }) {
+function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item }) => {
@@ -65,6 +67,12 @@ function DetailsScreen({ route, navigation }) {
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+      />
+      <FloatingAction
+        actions={FloatingActionButtonsActions}
+        onPressItem={(name) => {
+          console.log(`selected button: ${name}`);
+        }}
       />
     </View>
   );
@@ -94,9 +102,9 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Details"
-          component={DetailsScreen}
-          options={{ title: "Details" }}
+          name="PasswordListScreen"
+          component={PasswordListScreen}
+          options={{ title: "List of Passwords" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
