@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import PasswordRecord from "../components/PasswordRecord.js";
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FlatListBasics = () => {
+const PasswordRecordsList = () => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -45,4 +46,4 @@ const FlatListBasics = () => {
   );
 };
 
-module.exports = FlatListBasics;
+module.exports = PasswordRecordsList;

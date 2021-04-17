@@ -1,10 +1,18 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  ScrollView,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import FlatListBasics from "./data/data.js";
+import PasswordRecordsList from "./data/data.js";
+import PasswordRecord from "./components/PasswordRecord.js";
 
 function HomeScreen({ navigation, route }) {
   return (
@@ -21,7 +29,36 @@ function HomeScreen({ navigation, route }) {
 }
 
 function DetailsScreen({ route, navigation }) {
-  return FlatListBasics();
+  //return PasswordRecordsList();
+  return (
+    <View style={styles.containerForDetails}>
+      <View style={styles.passwordRecordWrapper}>
+        <Text style={styles.sectionTitle}>Saved Passwords</Text>
+        <ScrollView>
+          <View style={styles.item}>
+            <PasswordRecord text={"Password 1"} />
+            <PasswordRecord text={"Password 2"} />
+            <PasswordRecord text={"Password 3"} />
+            <PasswordRecord text={"Password 1"} />
+            <PasswordRecord text={"Password 2"} />
+            <PasswordRecord text={"Password 3"} />
+            <PasswordRecord text={"Password 1"} />
+            <PasswordRecord text={"Password 2"} />
+            <PasswordRecord text={"Password 3"} />
+            <PasswordRecord text={"Password 1"} />
+            <PasswordRecord text={"Password 2"} />
+            <PasswordRecord text={"Password 3"} />
+            <PasswordRecord text={"Password 1"} />
+            <PasswordRecord text={"Password 2"} />
+            <PasswordRecord text={"Password 3"} />
+            <PasswordRecord text={"Password 1"} />
+            <PasswordRecord text={"Password 2"} />
+            <PasswordRecord text={"Password 3"} />
+          </View>
+        </ScrollView>
+      </View>
+    </View>
+  );
 }
 
 const Stack = createStackNavigator();
@@ -63,5 +100,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  passwordRecordWrapper: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  containerForDetails: {
+    flex: 1,
+    backgroundColor: "#E8EAED",
   },
 });
