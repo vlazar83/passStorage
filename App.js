@@ -1,16 +1,29 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   Button,
-  ScrollView,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import PasswordRecordFactory from "./model/PasswordRecord.js";
+
+const DATA = [
+  PasswordRecordFactory("First Password", "First Item"),
+  PasswordRecordFactory("Second Password", "Second Item"),
+];
+
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+    <Text style={[styles.title, textColor]}>{item.name}</Text>
+  </TouchableOpacity>
+);
 
 function HomeScreen({ navigation, route }) {
   return (
@@ -27,12 +40,32 @@ function HomeScreen({ navigation, route }) {
 }
 
 function DetailsScreen({ route, navigation }) {
-  //return PasswordRecordsList();
+  const [selectedId, setSelectedId] = useState(null);
+
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+    const color = item.id === selectedId ? "white" : "black";
+
+    return (
+      <Item
+        item={item}
+        onPress={() => setSelectedId(item.id)}
+        backgroundColor={{ backgroundColor }}
+        textColor={{ color }}
+      />
+    );
+  };
+
   return (
     <View style={styles.containerForDetails}>
       <View style={styles.passwordRecordWrapper}>
         <Text style={styles.sectionTitle}>Saved Passwords</Text>
       </View>
+      <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 }
@@ -88,5 +121,14 @@ const styles = StyleSheet.create({
   containerForDetails: {
     flex: 1,
     backgroundColor: "#E8EAED",
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
   },
 });
