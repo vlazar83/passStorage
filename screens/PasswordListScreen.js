@@ -35,7 +35,9 @@ function PasswordListScreen({ route, navigation }) {
         item={item}
         onPress={() => {
           setSelectedId(item.id);
-          navigation.navigate("PasswordRecordDetailsScreen");
+          navigation.navigate("PasswordRecordDetailsScreen", {
+            itemId: item.id,
+          });
         }}
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
