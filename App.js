@@ -41,6 +41,22 @@ function HomeScreen({ navigation, route }) {
   );
 }
 
+function PasswordRecordDetailsScreen({ navigation, route }) {
+  return (
+    <View style={styles.container}>
+      <Text>Your password details are the following:</Text>
+    </View>
+  );
+}
+
+function AddNewPasswordScreen({ navigation, route }) {
+  return (
+    <View style={styles.container}>
+      <Text>Add new password</Text>
+    </View>
+  );
+}
+
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
 
@@ -51,7 +67,10 @@ function PasswordListScreen({ route, navigation }) {
     return (
       <Item
         item={item}
-        onPress={() => setSelectedId(item.id)}
+        onPress={() => {
+          setSelectedId(item.id);
+          navigation.navigate("PasswordRecordDetailsScreen");
+        }}
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
       />
@@ -72,6 +91,7 @@ function PasswordListScreen({ route, navigation }) {
         actions={FloatingActionButtonsActions}
         onPressItem={(name) => {
           console.log(`selected button: ${name}`);
+          navigation.navigate("AddNewPasswordScreen");
         }}
       />
     </View>
@@ -105,6 +125,16 @@ export default function App() {
           name="PasswordListScreen"
           component={PasswordListScreen}
           options={{ title: "List of Passwords" }}
+        />
+        <Stack.Screen
+          name="PasswordRecordDetailsScreen"
+          component={PasswordRecordDetailsScreen}
+          options={{ title: "Password Details" }}
+        />
+        <Stack.Screen
+          name="AddNewPasswordScreen"
+          component={AddNewPasswordScreen}
+          options={{ title: "New Password" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
