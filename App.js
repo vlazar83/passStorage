@@ -5,6 +5,34 @@ import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+function StackScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen2}
+        options={({ navigation, route }) => ({
+          headerTitle: (props) => <LogoTitle {...props} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function HomeScreen2({ navigation }) {
+  const [count, setCount] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => setCount((c) => c + 1)} title="Update count" />
+      ),
+    });
+  }, [navigation]);
+
+  return <Text>Count: {count}</Text>;
+}
+
 function HomeScreen({ navigation, route }) {
   React.useEffect(() => {
     if (route.params?.post) {
@@ -105,8 +133,17 @@ export default function App() {
       >
         <Stack.Screen
           name="Home"
-          component={HomeScreen}
-          options={{ title: "My home" }}
+          component={HomeScreen2}
+          options={{
+            title: "My home",
+            headerRight: () => (
+              <Button
+                onPress={() => alert("This is a button!")}
+                title="Info"
+                color="#fff"
+              />
+            ),
+          }}
         />
         <Stack.Screen
           name="Details"
