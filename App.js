@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import PasswordRecordsList from "./data/data.js";
-import PasswordRecord from "./components/PasswordRecord.js";
 
 function HomeScreen({ navigation, route }) {
   return (
@@ -34,28 +32,6 @@ function DetailsScreen({ route, navigation }) {
     <View style={styles.containerForDetails}>
       <View style={styles.passwordRecordWrapper}>
         <Text style={styles.sectionTitle}>Saved Passwords</Text>
-        <ScrollView>
-          <View style={styles.item}>
-            <PasswordRecord text={"Password 1"} />
-            <PasswordRecord text={"Password 2"} />
-            <PasswordRecord text={"Password 3"} />
-            <PasswordRecord text={"Password 1"} />
-            <PasswordRecord text={"Password 2"} />
-            <PasswordRecord text={"Password 3"} />
-            <PasswordRecord text={"Password 1"} />
-            <PasswordRecord text={"Password 2"} />
-            <PasswordRecord text={"Password 3"} />
-            <PasswordRecord text={"Password 1"} />
-            <PasswordRecord text={"Password 2"} />
-            <PasswordRecord text={"Password 3"} />
-            <PasswordRecord text={"Password 1"} />
-            <PasswordRecord text={"Password 2"} />
-            <PasswordRecord text={"Password 3"} />
-            <PasswordRecord text={"Password 1"} />
-            <PasswordRecord text={"Password 2"} />
-            <PasswordRecord text={"Password 3"} />
-          </View>
-        </ScrollView>
       </View>
     </View>
   );
