@@ -19,8 +19,8 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 );
 
 const DATA = [
-  PasswordRecordFactory("First Password", "MyUser", "Pass1"),
-  PasswordRecordFactory("Second Password", "MyUser2", "Pass2"),
+  //PasswordRecordFactory("First Password", "MyUser", "Pass1"),
+  //PasswordRecordFactory("Second Password", "MyUser2", "Pass2"),
 ];
 
 function PasswordListScreen({ route, navigation }) {
