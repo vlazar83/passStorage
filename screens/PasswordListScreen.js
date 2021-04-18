@@ -19,8 +19,8 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 );
 
 const DATA = [
-  PasswordRecordFactory("First Password", "MyUser", "Secret1"),
-  PasswordRecordFactory("Second Password", "MyUser", "Secret2"),
+  PasswordRecordFactory("First Password", "MyUser"),
+  PasswordRecordFactory("Second Password", "MyUser"),
 ];
 
 function PasswordListScreen({ route, navigation }) {
@@ -36,7 +36,7 @@ function PasswordListScreen({ route, navigation }) {
         onPress={() => {
           setSelectedId(item.id);
           navigation.navigate("PasswordRecordDetailsScreen", {
-            itemId: item.id,
+            key: item.id,
           });
         }}
         backgroundColor={{ backgroundColor }}

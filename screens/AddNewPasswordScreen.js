@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import PasswordRecordFactory from "../model/PasswordRecord.js";
 
 async function save(key, value) {
   await SecureStore.setItemAsync(key, value);
@@ -16,29 +17,49 @@ async function getValueFor(key) {
 }
 
 function AddNewPasswordScreen({ navigation, route }) {
-  const [key, onChangeKey] = React.useState("PasswordKey");
-  const [value, onChangeValue] = React.useState("sampleData");
+  const [enteredPassword, onChangeText] = React.useState("dummy text");
+  var enteredUserName = "";
+  var enteredDisplayName = "";
 
   return (
     <View style={styles.container}>
-      <Text style={styles.paragraph}>Save an item, and grab it later!</Text>
-
-      <Button
-        title="Save this key/value pair"
-        onPress={() => {
-          save(key, value);
-          onChangeKey("Your key here");
-          onChangeValue("Your value here");
-        }}
-      />
-
-      <Text style={styles.paragraph}>🔐 Enter your key 🔐</Text>
+      <Text style={styles.paragraph}>Enter the display name</Text>
       <TextInput
         style={styles.textInput}
         onSubmitEditing={(event) => {
-          getValueFor(event.nativeEvent.text);
+          enteredDisplayName = event.nativeEvent.text;
         }}
-        placeholder="Enter the key for the value you want to get"
+        placeholder="Your display name comes here."
+      />
+
+      <Text style={styles.paragraph}>Enter your user name</Text>
+      <TextInput
+        style={styles.textInput}
+        onSubmitEditing={(event) => {
+          enteredUserName = event.nativeEvent.text;
+        }}
+        placeholder="Your user name comes here."
+      />
+
+      <Text style={styles.paragraph}>🔐 Enter your password 🔐</Text>
+      <TextInput
+        style={styles.textInput}
+        onChangeText={onChangeText}
+        value={enteredPassword}
+        placeholder="Your password comes here."
+      />
+
+      <Button
+        style={styles.button}
+        title="Save this Password"
+        onPress={() => {
+          var newRecord = PasswordRecordFactory(
+            enteredDisplayName,
+            enteredUserName
+          );
+          console.log("EnteredPassword: " + enteredPassword);
+          save("test111", enteredPassword);
+        }}
       />
     </View>
   );
@@ -46,8 +67,27 @@ function AddNewPasswordScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: "#E8EAED",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paragraph: {
+    backgroundColor: "#E8EAED",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingTop: 15,
+  },
+  textInput: {
+    paddingTop: 10,
     backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    paddingTop: 100,
+    backgroundColor: "#f9c2ff",
     alignItems: "center",
     justifyContent: "center",
   },
