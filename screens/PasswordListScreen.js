@@ -11,6 +11,8 @@ import {
 import { FloatingAction } from "react-native-floating-action";
 import PasswordRecordFactory from "../model/PasswordRecord.js";
 import FloatingActionButtonsActions from "../model/FloatingActionButtons.js";
+import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
+import * as SecureStore from "expo-secure-store";
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -23,8 +25,44 @@ const DATA = [
   //PasswordRecordFactory("Second Password", "MyUser2", "Pass2"),
 ];
 
+function loadRecords() {
+  var uuidArray = [];
+  var promises = [];
+
+  let promise2 = new Promise(function (resolve, reject) {
+    uuidArray.forEach(function (item, index) {
+      console.log(item, index);
+      promises.push(SecureStore.getItemAsync(item));
+      console.log("Promises:" + promises);
+    });
+  });
+
+  SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS)
+    .then((response) => {
+      uuidArray = JSON.parse(response);
+      console.log("uuidArray:" + uuidArray);
+      return promise2;
+    })
+    .then(
+      Promise.all(promises)
+        .then((responses) => {
+          console.log("Responses:" + responses);
+          responses.forEach(function (item, index) {
+            DATA.push({
+              id: item.id,
+              displayName: response.displayName,
+              userID: response.userID,
+              password: response.password,
+            });
+          });
+        })
+        .catch((error) => console.log(`Error in executing ${error}`))
+    );
+}
+
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
+  loadRecords();
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
