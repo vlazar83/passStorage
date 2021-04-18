@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import PasswordRecordFactory from "../model/PasswordRecord.js";
+import addRecordToArrayOfUUIDs from "../utils/secureStoreUtils.js";
 
 async function save(key, value) {
   await SecureStore.setItemAsync(key, value);
@@ -64,6 +65,7 @@ function AddNewPasswordScreen({ navigation, route }) {
             password: newRecord.password,
           };
           console.log("EnteredData: " + JSON.stringify(passwordToBeSaved));
+          addRecordToArrayOfUUIDs(JSON.stringify(newRecord.id));
           save(newRecord.id, JSON.stringify(passwordToBeSaved));
           alert("Password saved in SecureStore");
         }}

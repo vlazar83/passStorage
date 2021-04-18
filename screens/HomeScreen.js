@@ -1,9 +1,29 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import getArrayOfUUIDs from "../utils/secureStoreUtils.js";
+import * as SecureStore from "expo-secure-store";
+import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
+import save from "../utils/secureStoreUtils.js";
+
+function initializeArrayOfUUIDs() {
+  console.log("Initialize Array of UUIDs");
+  var array = [];
+  save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
+}
+
+async function getArrayOfUUIDs() {
+  let result = await SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS);
+  console.log("getArrayOfUUIDs result " + result);
+  if (result) {
+    console.log("getArrayOfUUIDs returns:" + JSON.parse(result));
+    //return JSON.parse(result);
+  } else {
+    initializeArrayOfUUIDs();
+  }
+}
 
 function HomeScreen({ navigation, route }) {
+  getArrayOfUUIDs();
   return (
     <View style={styles.container}>
       <Image source={require("./../assets/vault.png")} />
@@ -11,7 +31,6 @@ function HomeScreen({ navigation, route }) {
       <Button
         title="Let's get started"
         onPress={() => {
-          getArrayOfUUIDs();
           navigation.navigate("PasswordListScreen");
         }}
       />

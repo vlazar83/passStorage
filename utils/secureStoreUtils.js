@@ -1,4 +1,5 @@
 import * as SecureStore from "expo-secure-store";
+import React from "react";
 import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 
 async function save(key, value) {
@@ -14,30 +15,17 @@ async function getValueFor(key) {
   }
 }
 
-async function getArrayOfUUIDs() {
-  let result = await SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS);
-  if (result) {
-    console.log(JSON.parse(result));
-    return JSON.parse(result);
-  } else {
-    initializeArrayOfUUIDs();
-  }
-}
-
 async function addRecordToArrayOfUUIDs(newItem) {
   let result = await SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS);
   if (result) {
     var array = JSON.parse(result);
     array.push(newItem);
-    return array;
+    //return array;
+    save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
   } else {
     alert("No values stored under that key.");
   }
 }
 
-function initializeArrayOfUUIDs() {
-  var array = [];
-  save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
-}
-
-module.exports = getArrayOfUUIDs;
+module.exports = save;
+module.exports = addRecordToArrayOfUUIDs;
