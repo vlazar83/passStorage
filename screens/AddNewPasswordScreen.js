@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import PasswordRecordFactory from "../model/PasswordRecord.js";
-import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 
 async function save(key, value) {
   await SecureStore.setItemAsync(key, value);
