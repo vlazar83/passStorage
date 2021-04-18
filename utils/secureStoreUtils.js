@@ -29,7 +29,7 @@ async function addRecordToArrayOfUUIDs(newItem) {
 
 function initializeArrayOfUUIDs() {
   console.log("Initialize Array of UUIDs");
-  var array = [{ id: "" }];
+  var array = [""];
   save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
 }
 
