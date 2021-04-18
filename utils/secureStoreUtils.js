@@ -27,5 +27,18 @@ async function addRecordToArrayOfUUIDs(newItem) {
   }
 }
 
-module.exports = save;
-module.exports = addRecordToArrayOfUUIDs;
+function initializeArrayOfUUIDs() {
+  console.log("Initialize Array of UUIDs");
+  var array = [{ id: "" }];
+  save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
+}
+
+async function getArrayOfUUIDs() {
+  let result = await SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS);
+  console.log("getArrayOfUUIDs result " + result);
+  if (result) {
+    console.log("getArrayOfUUIDs returns:" + JSON.parse(result));
+  } else {
+    initializeArrayOfUUIDs();
+  }
+}
