@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import getArrayOfUUIDs from "../utils/secureStoreUtils.js";
 
 function HomeScreen({ navigation, route }) {
   return (
@@ -9,7 +10,10 @@ function HomeScreen({ navigation, route }) {
       <Text>Storage for your passwords</Text>
       <Button
         title="Let's get started"
-        onPress={() => navigation.navigate("PasswordListScreen")}
+        onPress={() => {
+          getArrayOfUUIDs();
+          navigation.navigate("PasswordListScreen");
+        }}
       />
       <StatusBar style="auto" />
     </View>
