@@ -17,34 +17,32 @@ async function getValueFor(key) {
 }
 
 function AddNewPasswordScreen({ navigation, route }) {
-  const [enteredPassword, onChangeText] = React.useState("dummy text");
-  var enteredUserName = "";
-  var enteredDisplayName = "";
+  const [enteredPassword, onChangePassword] = React.useState("");
+  const [enteredUserName, onChangeUserName] = React.useState("");
+  const [enteredDisplayName, onChangeDisplayName] = React.useState("");
 
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>Enter the display name</Text>
       <TextInput
         style={styles.textInput}
-        onSubmitEditing={(event) => {
-          enteredDisplayName = event.nativeEvent.text;
-        }}
+        onChangeText={onChangeDisplayName}
+        value={enteredDisplayName}
         placeholder="Your display name comes here."
       />
 
       <Text style={styles.paragraph}>Enter your user name</Text>
       <TextInput
         style={styles.textInput}
-        onSubmitEditing={(event) => {
-          enteredUserName = event.nativeEvent.text;
-        }}
+        onChangeText={onChangeUserName}
+        value={enteredUserName}
         placeholder="Your user name comes here."
       />
 
       <Text style={styles.paragraph}>🔐 Enter your password 🔐</Text>
       <TextInput
         style={styles.textInput}
-        onChangeText={onChangeText}
+        onChangeText={onChangePassword}
         value={enteredPassword}
         placeholder="Your password comes here."
       />
@@ -55,10 +53,19 @@ function AddNewPasswordScreen({ navigation, route }) {
         onPress={() => {
           var newRecord = PasswordRecordFactory(
             enteredDisplayName,
-            enteredUserName
+            enteredUserName,
+            enteredPassword
           );
           console.log("EnteredPassword: " + enteredPassword);
-          save("test111", enteredPassword);
+          const passwordToBeSaved = {
+            id: newRecord.id,
+            displayName: newRecord.displayName,
+            userID: newRecord.userID,
+            password: newRecord.password,
+          };
+          console.log("EnteredData: " + JSON.stringify(passwordToBeSaved));
+          save(newRecord.id, JSON.stringify(passwordToBeSaved));
+          alert("Password saved in SecureStore");
         }}
       />
     </View>
