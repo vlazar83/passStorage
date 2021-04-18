@@ -14,13 +14,13 @@ import FloatingActionButtonsActions from "../model/FloatingActionButtons.js";
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.name}</Text>
+    <Text style={[styles.title, textColor]}>{item.displayName}</Text>
   </TouchableOpacity>
 );
 
 const DATA = [
-  PasswordRecordFactory("First Password", "First Item"),
-  PasswordRecordFactory("Second Password", "Second Item"),
+  PasswordRecordFactory("First Password", "MyUser", "Secret1"),
+  PasswordRecordFactory("Second Password", "MyUser", "Secret2"),
 ];
 
 function PasswordListScreen({ route, navigation }) {

@@ -6,8 +6,8 @@ function uuidv4() {
   });
 }
 
-const PasswordRecordFactory = (name, password) => {
-  return { id: uuidv4(), name, password };
+const PasswordRecordFactory = (displayName, userID, password) => {
+  return { id: uuidv4(), displayName, userID, password };
 };
 
 module.exports = PasswordRecordFactory;
