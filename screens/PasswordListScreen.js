@@ -25,39 +25,33 @@ const DATA = [
   //PasswordRecordFactory("Second Password", "MyUser2", "Pass2"),
 ];
 
-function loadRecords() {
-  var uuidArray = [];
-  var promises = [];
+var uuidArray = [];
+var promises = [];
+var responseUUIDs;
+var firstObject;
 
-  let promise2 = new Promise(function (resolve, reject) {
-    uuidArray.forEach(function (item, index) {
-      console.log(item, index);
-      promises.push(SecureStore.getItemAsync(item));
-      console.log("Promises:" + promises);
+function addToData() {
+  return new Promise(() => {
+    DATA.push({
+      id: JSON.parse(firstObject).id + Math.random().toString(36).substring(7),
+      displayName: JSON.parse(firstObject).displayName,
+      userID: JSON.parse(firstObject).userID,
+      password: JSON.parse(firstObject).password,
     });
   });
+}
 
-  SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS)
-    .then((response) => {
-      uuidArray = JSON.parse(response);
-      console.log("uuidArray:" + uuidArray);
-      return promise2;
-    })
-    .then(
-      Promise.all(promises)
-        .then((responses) => {
-          console.log("Responses:" + responses);
-          responses.forEach(function (item, index) {
-            DATA.push({
-              id: item.id,
-              displayName: response.displayName,
-              userID: response.userID,
-              password: response.password,
-            });
-          });
-        })
-        .catch((error) => console.log(`Error in executing ${error}`))
-    );
+async function loadRecords() {
+  try {
+    responseUUIDs = await SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS);
+    firstObject = await SecureStore.getItemAsync(JSON.parse(responseUUIDs)[0]);
+    let returnValue = await addToData();
+    console.log("DATA: ", DATA);
+    console.log("responseUUIDs: ", responseUUIDs);
+    console.log("firstObject: ", firstObject);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function PasswordListScreen({ route, navigation }) {
