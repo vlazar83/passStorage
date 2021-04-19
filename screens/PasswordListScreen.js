@@ -56,6 +56,7 @@ async function loadRecords() {
 
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
+  const [refresh, setRefresh] = useState(false);
   loadRecords();
 
   const renderItem = ({ item }) => {
@@ -81,11 +82,18 @@ function PasswordListScreen({ route, navigation }) {
     <View style={styles.containerForDetails}>
       <View style={styles.passwordRecordWrapper}>
         <Text style={styles.sectionTitle}>Saved Passwords</Text>
+        <Button
+          title="Refresh"
+          onPress={() => {
+            setRefresh(!refresh);
+          }}
+        />
       </View>
       <FlatList
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        extraData={this.state}
       />
       <FloatingAction
         actions={FloatingActionButtonsActions}
