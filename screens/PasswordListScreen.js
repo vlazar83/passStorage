@@ -93,7 +93,6 @@ function PasswordListScreen({ route, navigation }) {
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        extraData={this.state}
       />
       <FloatingAction
         actions={FloatingActionButtonsActions}
