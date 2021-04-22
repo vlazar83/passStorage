@@ -8,8 +8,8 @@ class StateHolder {
 }
 
 var stateHolder = new StateHolder({
-  uuidArray: [1],
-  passwordRecordsArray: [2],
+  uuidArray: [],
+  passwordRecordsArray: [],
 });
 
 module.exports = stateHolder;

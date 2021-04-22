@@ -52,7 +52,6 @@ class HomeScreen extends React.Component {
         <Button
           title="Let's get started"
           onPress={() => {
-            stateHolder.state.uuidArray = [4, 5];
             this.props.navigation.navigate("PasswordListScreen");
             console.log(stateHolder.state.uuidArray);
             console.log(stateHolder.state.passwordRecordsArray);

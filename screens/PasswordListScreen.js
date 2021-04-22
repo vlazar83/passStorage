@@ -13,6 +13,7 @@ import PasswordRecordFactory from "../model/PasswordRecord.js";
 import FloatingActionButtonsActions from "../model/FloatingActionButtons.js";
 import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 import * as SecureStore from "expo-secure-store";
+import stateHolder from "..//StateHolder.js";
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -20,44 +21,9 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const DATA = [
-  //PasswordRecordFactory("First Password", "MyUser", "Pass1"),
-  //PasswordRecordFactory("Second Password", "MyUser2", "Pass2"),
-];
-
-var uuidArray = [];
-var promises = [];
-var responseUUIDs;
-var firstObject;
-
-function addToData() {
-  return new Promise(() => {
-    DATA.push({
-      id: JSON.parse(firstObject).id + Math.random().toString(36).substring(7),
-      displayName: JSON.parse(firstObject).displayName,
-      userID: JSON.parse(firstObject).userID,
-      password: JSON.parse(firstObject).password,
-    });
-  });
-}
-
-async function loadRecords() {
-  try {
-    responseUUIDs = await SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS);
-    firstObject = await SecureStore.getItemAsync(JSON.parse(responseUUIDs)[0]);
-    let returnValue = await addToData();
-    console.log("DATA: ", DATA);
-    console.log("responseUUIDs: ", responseUUIDs);
-    console.log("firstObject: ", firstObject);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
   const [refresh, setRefresh] = useState(false);
-  loadRecords();
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
@@ -90,7 +56,7 @@ function PasswordListScreen({ route, navigation }) {
         />
       </View>
       <FlatList
-        data={DATA}
+        data={stateHolder.state.passwordRecordsArray}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
