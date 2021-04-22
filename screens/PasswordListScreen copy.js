@@ -24,7 +24,10 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
   const [refresh, setRefresh] = useState(false);
-  const [data, setData] = useState(stateHolder.state.passwordRecordsArray);
+  const [data, setData] = useState([
+    { displayName: "test", id: 1 },
+    { displayName: "test2", id: 2 },
+  ]);
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
@@ -53,12 +56,12 @@ function PasswordListScreen({ route, navigation }) {
           title="Refresh"
           onPress={() => {
             //setRefresh(!refresh);
-            //setData([{ displayName: "test3", id: 3 }]);
-            setData(stateHolder.state.passwordRecordsArray);
+            setData([{ displayName: "test3", id: 3 }]);
           }}
         />
       </View>
       <FlatList
+        //data={stateHolder.state.passwordRecordsArray}
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
