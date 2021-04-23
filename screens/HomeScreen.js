@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import stateHolder from "..//StateHolder.js";
 import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 import * as SecureStore from "expo-secure-store";
+import * as LocalAuthentication from "expo-local-authentication";
 
 class HomeScreen extends React.Component {
   async loadRecordsIntoPasswordRecordsArray() {
@@ -40,7 +41,17 @@ class HomeScreen extends React.Component {
     this.loadRecordsIntoPasswordRecordsArray();
   }
 
+  async handleAuthentication() {
+    try {
+      let hasHardware = await LocalAuthentication.hasHardwareAsync();
+      console.log("Do we have a hardware for auth?: " + hasHardware);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   componentDidMount() {
+    this.handleAuthentication();
     this.loadRecords();
   }
 
