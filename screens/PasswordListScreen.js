@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -44,6 +44,25 @@ function PasswordListScreen({ route, navigation }) {
       />
     );
   };
+
+  useEffect(() => {
+    // Interval to update count
+    const interval = setInterval(() => {
+      setData(stateHolder.state.passwordRecordsArray);
+    }, 1000);
+
+    // Subscribe for the focus Listener
+    const unsubscribe = navigation.addListener("focus", () => {
+      setData(stateHolder.state.passwordRecordsArray);
+    });
+
+    return () => {
+      // Clear setInterval in case of screen unmount
+      clearTimeout(interval);
+      // Unsubscribe for the focus Listener
+      unsubscribe;
+    };
+  }, [navigation]);
 
   return (
     <View style={styles.containerForDetails}>
