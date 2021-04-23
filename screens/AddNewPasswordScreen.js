@@ -102,45 +102,53 @@ class AddNewPasswordScreen extends React.Component {
           style={styles.button}
           title="Save this Password"
           onPress={() => {
-            var newRecord = PasswordRecordFactory(
-              this.state.displayName,
-              this.state.username,
-              this.state.password
-            );
-            console.log("EnteredPassword: " + this.state.password);
-            const passwordToBeSaved = {
-              id: newRecord.id,
-              displayName: newRecord.displayName,
-              userID: newRecord.userID,
-              password: newRecord.password,
-            };
-            console.log("EnteredData: " + JSON.stringify(passwordToBeSaved));
+            if (
+              this.state.displayName != "" &&
+              this.state.username != "" &&
+              this.state.password != ""
+            ) {
+              var newRecord = PasswordRecordFactory(
+                this.state.displayName,
+                this.state.username,
+                this.state.password
+              );
+              console.log("EnteredPassword: " + this.state.password);
+              const passwordToBeSaved = {
+                id: newRecord.id,
+                displayName: newRecord.displayName,
+                userID: newRecord.userID,
+                password: newRecord.password,
+              };
+              console.log("EnteredData: " + JSON.stringify(passwordToBeSaved));
 
-            Promise.all([
-              SecureStore.setItemAsync(
-                newRecord.id,
-                JSON.stringify(passwordToBeSaved)
-              ),
-              SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS),
-            ])
-              .then((responses) => {
-                // here we receive an array of responses ! For us the second response is important!
-                console.log(responses);
-                if (responses[1]) {
-                  // if it was not empty
-                  var array = JSON.parse(responses[1]);
-                  array.push(newRecord.id);
-                  save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
-                } else {
-                  // if it was empty
-                  var array = [newRecord.id];
-                  save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
-                }
-              })
-              .catch((error) => console.log(`Error in executing ${error}`));
+              Promise.all([
+                SecureStore.setItemAsync(
+                  newRecord.id,
+                  JSON.stringify(passwordToBeSaved)
+                ),
+                SecureStore.getItemAsync(KEY_FOR_ARRAY_OF_UUIDS),
+              ])
+                .then((responses) => {
+                  // here we receive an array of responses ! For us the second response is important!
+                  console.log(responses);
+                  if (responses[1]) {
+                    // if it was not empty
+                    var array = JSON.parse(responses[1]);
+                    array.push(newRecord.id);
+                    save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
+                  } else {
+                    // if it was empty
+                    var array = [newRecord.id];
+                    save(KEY_FOR_ARRAY_OF_UUIDS, JSON.stringify(array));
+                  }
+                })
+                .catch((error) => console.log(`Error in executing ${error}`));
 
-            save(newRecord.id, JSON.stringify(passwordToBeSaved));
-            alert("Password saved in SecureStore");
+              save(newRecord.id, JSON.stringify(passwordToBeSaved));
+              alert("Password saved in SecureStore");
+            } else {
+              alert("Fill all fields first!");
+            }
           }}
         />
       </View>
