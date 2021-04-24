@@ -38,12 +38,16 @@ export default function App() {
           component={HomeScreen}
           options={{
             title: "Welcome",
+            headerLeft: null,
           }}
         />
         <Stack.Screen
           name="PasswordListScreen"
           component={PasswordListScreen}
-          options={{ title: "List of Passwords" }}
+          options={{
+            title: "List of Passwords",
+            headerLeft: null,
+          }}
         />
         <Stack.Screen
           name="PasswordRecordDetailsScreen"
