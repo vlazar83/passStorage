@@ -13,11 +13,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Some faceID description here"
+      },
+      "supportsTablet": true,
+      "bundleIdentifier": "vlazar83.passStorage",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {

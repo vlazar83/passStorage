@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import AuthScreen from "./screens/AuthScreen.js";
 import HomeScreen from "./screens/HomeScreen.js";
 import PasswordListScreen from "./screens/PasswordListScreen.js";
 import PasswordRecordDetailsScreen from "./screens/PasswordRecordDetailsScreen.js";
@@ -25,6 +26,13 @@ export default function App() {
           },
         }}
       >
+        <Stack.Screen
+          name="Authentication"
+          component={AuthScreen}
+          options={{
+            title: "AuthScreen",
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
