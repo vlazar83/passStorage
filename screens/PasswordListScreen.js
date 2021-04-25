@@ -1,16 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { ListItem, Avatar } from "react-native-elements";
+import { ListItem, Avatar, SearchBar } from "react-native-elements";
 import { StyleSheet, Text, View, Image, Button, FlatList } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import FloatingActionButtonsActions from "../model/FloatingActionButtons.js";
 import stateHolder from "..//StateHolder.js";
-import { State } from "react-native-gesture-handler";
 
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState(stateHolder.state.passwordRecordsArray);
+  const [search, setSearch] = useState("");
+  const [filteredDataSource, setFilteredDataSource] = useState(
+    stateHolder.state.passwordRecordsArray
+  );
   var state = { refreshing: false };
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = data.filter(function (item) {
+        const itemData = item.id ? item.id.toUpperCase() : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(data);
+      setSearch(text);
+    }
+  };
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -34,6 +58,7 @@ function PasswordListScreen({ route, navigation }) {
   const handleRefresh = () => {
     state = { refreshing: true };
     setData(stateHolder.state.passwordRecordsArray);
+    setFilteredDataSource(stateHolder.state.passwordRecordsArray);
     state = { refreshing: false };
   };
 
@@ -58,11 +83,15 @@ function PasswordListScreen({ route, navigation }) {
 
   return (
     <View style={styles.containerForDetails}>
-      <View style={styles.passwordRecordWrapper}>
-        <Text style={styles.sectionTitle}>Saved Passwords</Text>
-      </View>
+      <SearchBar
+        round
+        placeholder="Type Here..."
+        onChangeText={(text) => searchFilterFunction(text)}
+        onClear={(text) => searchFilterFunction("")}
+        value={search}
+      />
       <FlatList
-        data={data}
+        data={filteredDataSource}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         refreshing={state.refreshing}
