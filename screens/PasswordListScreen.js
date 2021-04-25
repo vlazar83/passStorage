@@ -4,11 +4,13 @@ import { StyleSheet, Text, View, Image, Button, FlatList } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import FloatingActionButtonsActions from "../model/FloatingActionButtons.js";
 import stateHolder from "..//StateHolder.js";
+import { State } from "react-native-gesture-handler";
 
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState(stateHolder.state.passwordRecordsArray);
+  var state = { refreshing: false };
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -28,6 +30,12 @@ function PasswordListScreen({ route, navigation }) {
       <ListItem.Chevron />
     </ListItem>
   );
+
+  const handleRefresh = () => {
+    state = { refreshing: true };
+    setData(stateHolder.state.passwordRecordsArray);
+    state = { refreshing: false };
+  };
 
   useEffect(() => {
     // Interval to update count
@@ -52,19 +60,13 @@ function PasswordListScreen({ route, navigation }) {
     <View style={styles.containerForDetails}>
       <View style={styles.passwordRecordWrapper}>
         <Text style={styles.sectionTitle}>Saved Passwords</Text>
-        <Button
-          title="Refresh"
-          onPress={() => {
-            //setRefresh(!refresh);
-            //setData([{ displayName: "test3", id: 3 }]);
-            setData(stateHolder.state.passwordRecordsArray);
-          }}
-        />
       </View>
       <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        refreshing={state.refreshing}
+        onRefresh={handleRefresh}
       />
       <FloatingAction
         actions={FloatingActionButtonsActions}
