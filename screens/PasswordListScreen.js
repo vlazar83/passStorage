@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { ListItem, Avatar, Icon } from "react-native-elements";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { ListItem, Avatar } from "react-native-elements";
+import { StyleSheet, Text, View, Image, Button, FlatList } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
-import PasswordRecordFactory from "../model/PasswordRecord.js";
 import FloatingActionButtonsActions from "../model/FloatingActionButtons.js";
-import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
-import * as SecureStore from "expo-secure-store";
 import stateHolder from "..//StateHolder.js";
-
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.displayName}</Text>
-  </TouchableOpacity>
-);
 
 function PasswordListScreen({ route, navigation }) {
   const [selectedId, setSelectedId] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState(stateHolder.state.passwordRecordsArray);
 
-  const renderItem2 = ({ item }) => (
+  const renderItem = ({ item }) => (
     <ListItem
       onPress={() => {
         setSelectedId(item.id);
@@ -37,7 +20,7 @@ function PasswordListScreen({ route, navigation }) {
       }}
       bottomDivider
     >
-      <Avatar rounded source={require("../assets/favicon.png")} />
+      <Avatar rounded source={require("../assets/key-variant.png")} />
       <ListItem.Content>
         <ListItem.Title>{item.id}</ListItem.Title>
         <ListItem.Subtitle>{item.displayName}</ListItem.Subtitle>
@@ -80,7 +63,7 @@ function PasswordListScreen({ route, navigation }) {
       </View>
       <FlatList
         data={data}
-        renderItem={renderItem2}
+        renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
       <FloatingAction
