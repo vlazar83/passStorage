@@ -39,6 +39,7 @@ export default function App() {
           options={{
             title: "Welcome",
             headerLeft: null,
+            gestureEnabled: false,
           }}
         />
         <Stack.Screen
@@ -47,6 +48,7 @@ export default function App() {
           options={{
             title: "List of Passwords",
             headerLeft: null,
+            gestureEnabled: false,
           }}
         />
         <Stack.Screen
