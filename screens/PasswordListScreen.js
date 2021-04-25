@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ListItem, Avatar, Icon } from "react-native-elements";
 import {
   StyleSheet,
   Text,
@@ -26,24 +27,24 @@ function PasswordListScreen({ route, navigation }) {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState(stateHolder.state.passwordRecordsArray);
 
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-    const color = item.id === selectedId ? "white" : "black";
-
-    return (
-      <Item
-        item={item}
-        onPress={() => {
-          setSelectedId(item.id);
-          navigation.navigate("PasswordRecordDetailsScreen", {
-            key: item.id,
-          });
-        }}
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
-      />
-    );
-  };
+  const renderItem2 = ({ item }) => (
+    <ListItem
+      onPress={() => {
+        setSelectedId(item.id);
+        navigation.navigate("PasswordRecordDetailsScreen", {
+          key: item.id,
+        });
+      }}
+      bottomDivider
+    >
+      <Avatar rounded source={require("../assets/favicon.png")} />
+      <ListItem.Content>
+        <ListItem.Title>{item.id}</ListItem.Title>
+        <ListItem.Subtitle>{item.displayName}</ListItem.Subtitle>
+      </ListItem.Content>
+      <ListItem.Chevron />
+    </ListItem>
+  );
 
   useEffect(() => {
     // Interval to update count
@@ -79,7 +80,7 @@ function PasswordListScreen({ route, navigation }) {
       </View>
       <FlatList
         data={data}
-        renderItem={renderItem}
+        renderItem={renderItem2}
         keyExtractor={(item) => item.id}
       />
       <FloatingAction
