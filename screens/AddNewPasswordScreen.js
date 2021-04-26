@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import PasswordRecordFactory from "../model/PasswordRecord.js";
 import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 import stateHolder from "..//StateHolder.js";
-import PasswordListScreen from "./PasswordListScreen.js";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Input, Button, Divider } from "react-native-elements";
 
 async function save(key, value) {
   await SecureStore.setItemAsync(key, value);
@@ -77,30 +78,30 @@ class AddNewPasswordScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Divider style={{ backgroundColor: "blue" }} />
         <Text style={styles.paragraph}>Enter the display name</Text>
-        <TextInput
-          style={styles.textInput}
+        <Input
           onChangeText={this.handleDisplayName}
-          placeholder="Your display name comes here."
+          placeholder="Display Name"
+          leftIcon={{ type: "font-awesome", name: "list-alt", size: 36 }}
         />
-
         <Text style={styles.paragraph}>Enter your user name</Text>
-        <TextInput
-          style={styles.textInput}
+        <Input
           onChangeText={this.handleUsername}
-          placeholder="Your user name comes here."
+          placeholder="User Name"
+          leftIcon={<Icon type="font-awesome" name="user-circle" size={36} />}
         />
-
         <Text style={styles.paragraph}>🔐 Enter your password 🔐</Text>
-        <TextInput
-          style={styles.textInput}
+        <Input
+          placeholder="Password"
           onChangeText={this.handlePassword}
-          placeholder="Your password comes here."
+          leftIcon={{ type: "font-awesome", name: "key", size: 36 }}
         />
-
+        <Divider style={{ backgroundColor: "blue" }} />
         <Button
-          style={styles.button}
-          title="Save this Password"
+          icon={<Icon name="save" size={36} color="black" />}
+          title=" Save Password"
+          type="clear"
           onPress={() => {
             if (
               this.state.displayName != "" &&
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#E8EAED",
     alignItems: "flex-start",
     justifyContent: "center",
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: "bold",
     paddingTop: 15,
   },
