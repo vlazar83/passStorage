@@ -14,6 +14,7 @@ import stateHolder from "..//StateHolder.js";
 import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 import * as SecureStore from "expo-secure-store";
 import LottieView from "lottie-react-native";
+import * as LocalAuthentication from "expo-local-authentication";
 
 class HomeScreen extends React.Component {
   state = {
@@ -23,7 +24,67 @@ class HomeScreen extends React.Component {
     loop: true,
     sliderPosition: new Animated.Value(0),
     progress: 0,
+    hasHardware: false,
+    supportedAuthTypes: "",
+    isEnrolled: false,
+    isAuthenticated: false,
   };
+
+  async handleAuthentication() {
+    try {
+      this.state.hasHardware = await LocalAuthentication.hasHardwareAsync();
+      console.log("Do we have a hardware for auth?: " + this.state.hasHardware);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      this.state.supportedAuthTypes = await LocalAuthentication.supportedAuthenticationTypesAsync();
+      console.log(
+        "What types of auths are supported?: " + this.state.supportedAuthTypes
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      this.state.isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      console.log("isEnrolled?: " + this.state.isEnrolled);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      this.state.isAuthenticated = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Authenticate yourself!",
+        cancelLabel: "Not this time",
+        fallbackLabel: "fallbackLabel",
+      });
+      console.log("isAuthenticated?: " + this.state.isAuthenticated);
+      console.log(
+        "isAuthenticated for sure?: " + this.state.isAuthenticated.success
+      );
+
+      if (this.state.isAuthenticated.success) {
+        this.loadRecords();
+        Animated.timing(this.state.sliderPosition, {
+          toValue: 1,
+          duration: this.state.duration,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }).start(({ finished }) => {
+          if (finished) {
+            this.setState({ isPlaying: false });
+            this.props.navigation.navigate("PasswordListScreen");
+            console.log(stateHolder.state.uuidArray);
+            console.log(stateHolder.state.passwordRecordsArray);
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async loadRecordsIntoPasswordRecordsArray() {
     promises = [];
@@ -60,7 +121,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.loadRecords();
+    //this.loadRecords();
     //this.animation.play();
   }
 
@@ -85,25 +146,12 @@ class HomeScreen extends React.Component {
           speed={1.5}
           progress={this.state.sliderPosition}
           enableMergePathsAndroidForKitKatAndAbove
-          // OR find more Lottie files @ https://lottiefiles.com/featured
-          // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
         />
         <Button
           title="Let's get started"
+          color="#fff"
           onPress={() => {
-            Animated.timing(this.state.sliderPosition, {
-              toValue: 1,
-              duration: this.state.duration,
-              easing: Easing.linear,
-              useNativeDriver: true,
-            }).start(({ finished }) => {
-              if (finished) {
-                this.setState({ isPlaying: false });
-                this.props.navigation.navigate("PasswordListScreen");
-                console.log(stateHolder.state.uuidArray);
-                console.log(stateHolder.state.passwordRecordsArray);
-              }
-            });
+            this.handleAuthentication();
           }}
         />
         <StatusBar style="auto" />
