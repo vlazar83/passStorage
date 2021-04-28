@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as LocalAuthentication from "expo-local-authentication";
 
@@ -61,7 +61,7 @@ class AuthScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Authenticate yourself</Text>
+        <Image source={require("./../assets/vault.png")} />
         <StatusBar style="auto" />
         <Button
           title="Retry Authentication"
