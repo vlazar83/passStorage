@@ -3,9 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
   SafeAreaView,
   Image,
-  Button,
   Animated,
   Easing,
 } from "react-native";
@@ -15,6 +15,7 @@ import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 import * as SecureStore from "expo-secure-store";
 import LottieView from "lottie-react-native";
 import * as LocalAuthentication from "expo-local-authentication";
+import AppButton from "./elements/AppButton.js";
 
 class HomeScreen extends React.Component {
   state = {
@@ -147,9 +148,10 @@ class HomeScreen extends React.Component {
           progress={this.state.sliderPosition}
           enableMergePathsAndroidForKitKatAndAbove
         />
-        <Button
+        <AppButton
           title="Let's get started"
-          color="#fff"
+          size="sm"
+          backgroundColor="#007bff"
           onPress={() => {
             this.handleAuthentication();
           }}
