@@ -73,6 +73,11 @@ function PasswordListScreen({ route, navigation }) {
       setData(stateHolder.state.passwordRecordsArray);
     });
 
+    navigation.addListener("beforeRemove", (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+    });
+
     return () => {
       // Clear setInterval in case of screen unmount
       clearTimeout(interval);
