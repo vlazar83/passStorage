@@ -41,7 +41,10 @@ function PasswordListScreen({ route, navigation }) {
       onPress={() => {
         setSelectedId(item.id);
         navigation.navigate("PasswordRecordDetailsScreen", {
-          key: item.id,
+          id: item.id,
+          displayName: item.displayName,
+          userID: item.userID,
+          password: item.password,
         });
       }}
       bottomDivider
