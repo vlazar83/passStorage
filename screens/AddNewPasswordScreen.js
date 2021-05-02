@@ -6,6 +6,7 @@ import KEY_FOR_ARRAY_OF_UUIDS from "../utils/constants.js";
 import stateHolder from "..//StateHolder.js";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button, Divider } from "react-native-elements";
+import Toast from "react-native-toast-message";
 
 async function save(key, value) {
   await SecureStore.setItemAsync(key, value);
@@ -146,9 +147,23 @@ class AddNewPasswordScreen extends React.Component {
                 .catch((error) => console.log(`Error in executing ${error}`));
 
               save(newRecord.id, JSON.stringify(passwordToBeSaved));
-              alert("Password saved in SecureStore");
+              //alert("Password saved in SecureStore");
+              Toast.show({
+                text1: "Success",
+                text2: "Password saved in SecureStore",
+                position: "bottom",
+                bottomOffset: 40,
+                type: "success",
+              });
             } else {
-              alert("Fill all fields first!");
+              //alert("Fill all fields first!");
+              Toast.show({
+                text1: "Missing input",
+                text2: "Fill all fields first!",
+                position: "bottom",
+                bottomOffset: 40,
+                type: "info",
+              });
             }
           }}
         />

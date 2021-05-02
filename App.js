@@ -8,6 +8,7 @@ import PasswordListScreen from "./screens/PasswordListScreen.js";
 import PasswordRecordDetailsScreen from "./screens/PasswordRecordDetailsScreen.js";
 import AddNewPasswordScreen from "./screens/AddNewPasswordScreen.js";
 import AddNewPasswordScreenFromPicture from "./screens/AddNewPasswordScreenFromPicture.js";
+import Toast from "react-native-toast-message";
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,7 @@ export default function App() {
           options={{ title: "New Password From Picture" }}
         />
       </Stack.Navigator>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </NavigationContainer>
   );
 }
