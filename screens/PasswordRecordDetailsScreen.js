@@ -7,45 +7,44 @@ import Clipboard from "expo-clipboard";
 
 class PasswordRecordDetailsScreen extends React.Component {
   state = {
-    displayName: "",
-    userID: "",
-    password: "",
+    id: this.props.route.params.id,
+    displayName: this.props.route.params.displayName,
+    userID: this.props.route.params.userID,
+    password: this.props.route.params.password,
   };
   handleDisplayName = (text) => {
     this.setState({ displayName: text });
   };
   handleUsername = (text) => {
-    this.setState({ username: text });
+    this.setState({ userID: text });
   };
   handlePassword = (text) => {
     this.setState({ password: text });
   };
 
   render() {
-    const { id } = this.props.route.params;
-    const { displayName } = this.props.route.params;
-    const { userID } = this.props.route.params;
-    const { password } = this.props.route.params;
     return (
       <View style={styles.container}>
         <View style={styles.displayName}>
           <Text>Your password details are the following:</Text>
-          <Text>itemId: {JSON.stringify(id)}</Text>
-          <Text>displayName: {JSON.stringify(displayName)}</Text>
-          <Text>userID: {JSON.stringify(userID)}</Text>
-          <Text>password: {JSON.stringify(password)}</Text>
+          <Text>itemId: {this.state.id}</Text>
+          <Text>displayName: {this.state.displayName}</Text>
+          <Text>userID: {this.state.userID}</Text>
+          <Text>password: {this.state.password}</Text>
           <Input
-            placeholder={displayName}
+            placeholder={this.state.displayName}
             label="displayName"
             onChangeText={this.handleDisplayName}
+            defaultValue={this.state.displayName}
           />
         </View>
         <View style={styles.fieldName}>
           <View style={styles.fieldNameTitle}>
             <Input
-              placeholder={userID}
+              placeholder={this.state.userID}
               label="userName"
               onChangeText={this.handleUsername}
+              defaultValue={this.state.userID}
             />
           </View>
           <View style={styles.fieldNameButton}>
@@ -75,9 +74,10 @@ class PasswordRecordDetailsScreen extends React.Component {
         <View style={styles.fieldName}>
           <View style={styles.fieldNameTitle}>
             <Input
-              placeholder="password"
+              placeholder={this.state.password}
               label="password"
               onChangeText={this.handlePassword}
+              defaultValue={this.state.password}
             />
           </View>
           <View style={styles.fieldNameButton}>
